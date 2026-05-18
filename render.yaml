@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: campfire
+    runtime: docker
+    plan: starter
+    region: oregon
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /up
+    autoDeployTrigger: commit
+    envVars:
+      - key: SECRET_KEY_BASE
+        generateValue: true
+      - key: DISABLE_SSL
+        value: "1"
+      - key: RAILS_LOG_TO_STDOUT
+        value: "1"
+      - key: RAILS_SERVE_STATIC_FILES
+        value: "1"
+      - key: HTTP_PORT
+        value: "10000"
+    disk:
+      name: storage
+      mountPath: /rails/storage
+      sizeGB: 5
