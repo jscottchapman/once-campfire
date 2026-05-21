@@ -1,6 +1,14 @@
 module ApplicationHelper
   def page_title_tag
-    tag.title @page_title || "Campfire"
+    tag.title @page_title || Current.account&.name.presence || "Ravenview Chat"
+  end
+
+  def og_site_meta_tags
+    site_name = Current.account&.name.presence || "Ravenview Chat"
+    safe_join [
+      tag.meta(property: "og:site_name", content: site_name),
+      tag.meta(property: "og:title", content: @page_title || site_name)
+    ]
   end
 
   def current_user_meta_tags
